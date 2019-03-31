@@ -3,40 +3,33 @@ package client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-//import com.netflix.discovery.DiscoveryClient;
-
-
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
-@RestController
-@RibbonClient(name = "say-hello", configuration = SayHelloConfiguration.class)  // Add for Ribbon 
+//@EnableDiscoveryClient
+@EnableFeignClients
 public class ClientMain {
-
-  @LoadBalanced  // Add for Ribbon 
-  @Bean
-  RestTemplate restTemplate(){
-    return new RestTemplate();
-  }
-
-  @Autowired
-  RestTemplate restTemplate;
+	
+//	@Autowired
+//	StoreClient storeClient;
 
 	public static void main(String[] args) {
-		AnnotationConfigApplicationContext  ctx =    new AnnotationConfigApplicationContext(ClientMain.class);
-//		SpringApplication.run(ClientMain.class, args);
+		ApplicationContext applicationContext = SpringApplication.run(ClientMain.class, args);
+		Client client = applicationContext.getBean(Client.class);
+		System.out.println(applicationContext.getId());
+		System.out.println(applicationContext.getApplicationName());
+//		System.out.println(client.getClass());
+		System.out.println(client.getMessage());
+		System.out.println(client.getRandom());
+		System.out.println(client.getRandom());
+		System.out.println(client.getRandom());
+		System.out.println(client.getRandom());
+		System.out.println(client.getRandom());
+		System.out.println(client.getRandom());
+		System.out.println(client.getRandom());
 	}
-
-
-
-//	private DiscoveryClient discoveryClient;
+	
 }
-
 
